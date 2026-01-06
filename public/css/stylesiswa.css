@@ -1,0 +1,353 @@
+/* ==================== VARIABLES ==================== */
+:root {
+  /* Light Theme (Default) */
+  --bg-body: #cfd9ea;
+  --bg-app: rgba(255, 255, 255, .35);
+  --bg-sidebar: #eaf0ff;
+  --bg-sidebar-hover: #dee9ff;
+  --bg-sidebar-active: #98b6fc;
+  --text-primary: #23365f;
+  --text-secondary: #4c5f88;
+  --text-muted: #6c757d;
+  --accent-color: #5672b3;
+  --accent-hover: #2e4a8a;
+  --card-bg: #fff;
+  --card-lesson-bg: #b4c7ec;
+  --card-lesson-title: #183262;
+  --card-lesson-meta: #13284f;
+  --pill-bg: #fff;
+  --shadow-color: rgba(0, 0, 0, 0.05);
+
+  /* Compatibility Aliases & Helpers */
+  --card: var(--card-bg);
+  --r: 16px;
+
+  /* Gradients for cards */
+  --grad-c1: linear-gradient(145deg, #bcd0fb, #8cb0f0);
+  --grad-c2: linear-gradient(145deg, #9ec0ff, #6d97e6);
+  --grad-c3: linear-gradient(145deg, #6f89c6, #3c5a94);
+  --grad-c4: linear-gradient(145deg, #b8c9ee, #8cadde);
+}
+
+[data-theme="dark"] {
+  /* Dark Theme Overrides */
+  --bg-body: #0f172a;
+  --bg-app: rgba(30, 41, 59, 0.95);
+  --bg-sidebar: #1e293b;
+  --bg-sidebar-hover: #334155;
+  --bg-sidebar-active: #3b82f6;
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --accent-color: #60a5fa;
+  --accent-hover: #93c5fd;
+  --card-bg: #1e293b;
+  --card-lesson-bg: #334155;
+  --card-lesson-title: #f1f5f9;
+  --card-lesson-meta: #cbd5e1;
+  --pill-bg: #0f172a;
+  --shadow-color: rgba(0, 0, 0, 0.2);
+
+  /* Adjusted Gradients for Dark Mode */
+  --grad-c1: linear-gradient(145deg, #334155, #1e293b);
+  --grad-c2: linear-gradient(145deg, #475569, #334155);
+  --grad-c3: linear-gradient(145deg, #1e293b, #0f172a);
+  --grad-c4: linear-gradient(145deg, #334155, #1e293b);
+}
+
+body {
+  background: var(--bg-body);
+  color: var(--text-primary);
+  /* transition: background 0.3s ease, color 0.3s ease; */
+}
+
+h5,
+h6,
+.h5,
+.h6 {
+  color: var(--text-primary);
+}
+
+.app {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  background: var(--bg-app);
+  border-radius: 0;
+  overflow: hidden;
+  box-shadow: none;
+  display: flex;
+}
+
+/* ===== Sidebar ===== */
+.sidebar {
+  width: 92px;
+  min-width: 92px;
+  background: var(--bg-sidebar);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 0;
+  /* transition: background 0.3s ease; */
+}
+
+.btn-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+  color: var(--accent-color);
+  text-decoration: none;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.btn-icon:hover {
+  background: var(--bg-sidebar-hover);
+  color: var(--accent-hover);
+  box-shadow: 0 6px 12px rgba(79, 120, 200, .15);
+}
+
+.btn-icon.active {
+  background: var(--bg-sidebar-active);
+  color: #fff;
+  /* Active text color usually white looks best against blue */
+  box-shadow: 0 6px 16px rgba(79, 120, 200, .18);
+}
+
+.sidebar-footer {
+  margin-top: auto;
+}
+
+/* ===== Header & Page ===== */
+.page {
+  flex-grow: 1;
+  background: transparent;
+  /* Let app background show through */
+}
+
+.page-header {
+  padding: 20px 28px 0;
+}
+
+.brand-title {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.subtle {
+  color: var(--text-secondary);
+  opacity: .9;
+}
+
+.profile-chip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--card-bg);
+  padding: 8px 24px 8px 8px;
+  border-radius: 999px;
+  box-shadow: 0 4px 12px var(--shadow-color);
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: transform .2s, box-shadow .2s;
+}
+
+.profile-chip:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px var(--shadow-color);
+}
+
+.avatar {
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+  border-radius: 50%;
+  background: #6a93e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.1rem;
+  overflow: hidden;
+  /* For image */
+}
+
+/* ===== Cards Jadwal ===== */
+.schedule-wrap {
+  padding: 26px 26px 36px;
+}
+
+.card-lesson {
+  border: none;
+  border-radius: 16px;
+  padding: 18px;
+  background: var(--card-lesson-bg);
+  /* Fallback */
+  box-shadow: 0 8px 18px var(--shadow-color);
+  position: relative;
+  overflow: hidden;
+  color: var(--text-primary);
+}
+
+.card-lesson .title {
+  font-weight: 700;
+  color: var(--card-lesson-title);
+}
+
+.card-lesson .line {
+  height: 2px;
+  background: rgba(255, 255, 255, .7);
+  border-radius: 99px;
+  margin: 8px 0 12px;
+}
+
+.card-lesson .meta {
+  font-size: .9rem;
+  color: var(--card-lesson-meta);
+  opacity: .95;
+}
+
+.btn-status {
+  font-size: .8rem;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--pill-bg);
+  color: var(--text-primary);
+  border: 1px solid rgba(17, 35, 77, .08);
+}
+
+.c1 {
+  background: var(--grad-c1);
+}
+
+.c2 {
+  background: var(--grad-c2);
+}
+
+.c3 {
+  background: var(--grad-c3);
+  color: #eef3ff;
+}
+
+/* Keep c3 text light if gradient is dark */
+.c4 {
+  background: var(--grad-c4);
+}
+
+/* In dark mode, ensure text inside c1, c2, c3, c4 is readable */
+[data-theme="dark"] .card-lesson .title,
+[data-theme="dark"] .card-lesson .meta {
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .btn-status {
+  background: #475569;
+  color: #fff;
+  border: none;
+}
+
+/* ===== Box Status ===== */
+.status-wrap {
+  padding: 26px;
+}
+
+.status-box {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 0;
+  box-shadow: 0 8px 20px var(--shadow-color);
+  overflow: hidden;
+  max-width: 520px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.status-header {
+  background: #8cb0f0;
+  color: #fff;
+  text-align: center;
+  padding: .75rem;
+  font-weight: 600;
+}
+
+[data-theme="dark"] .status-header {
+  background: #3b82f6;
+}
+
+.status-box table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.status-box td {
+  border: 1px solid var(--text-muted);
+  /* lighter border */
+  padding: 12px;
+  font-size: .95rem;
+  color: var(--text-primary);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .status-box td {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ===== Views ===== */
+.view {
+  display: none;
+}
+
+.view.active {
+  display: block;
+}
+
+/* ===== Tabel Mapel ===== */
+.mapel-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card-bg);
+  /* was #ede1e1 */
+  box-shadow: 0 8px 18px var(--shadow-color);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .mapel-table {
+  background: #1e293b;
+}
+
+.detail-card table thead th {
+  background: #8cb0f0 !important;
+  color: #fff !important;
+  font-weight: 600;
+}
+
+[data-theme="dark"] .detail-card table thead th {
+  background: #3b82f6 !important;
+}
+
+/* Profile Form adjustments */
+.card {
+  background: var(--card-bg);
+  color: var(--text-primary);
+}
+
+.form-label {
+  color: var(--text-secondary);
+}
+
+.form-control.bg-light {
+  background-color: var(--bg-sidebar-hover) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid transparent;
+}
+
+[data-theme="dark"] .form-control.bg-light {
+  background-color: #334155 !important;
+}
