@@ -5,10 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Profil Tata Usaha | Absensi SMP GIKI 2 Surabaya</title>
-
+    
+    <link rel="icon" type="image/png" href="{{ asset('uploads/logo-giki.png') }}">
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="{{ asset('css/styletu.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/styletu.css') . '?v=' . time() }}" rel="stylesheet">
 </head>
 
 <body data-page="profil">
@@ -50,6 +51,12 @@
         <!-- ==================== MAIN ==================== -->
         <main class="main">
             <header class="topbar">
+                <button class="hamburger d-md-none" aria-label="Toggle navigation">
+    <span></span>
+    <span></span>
+    <span></span>
+</button>
+
                 <div class="topbar-title">
                     <h1>Absensi Siswa | SMP GIKI 2 Surabaya</h1>
                     <p class="topbar-subtitle">Profil</p>
@@ -222,6 +229,39 @@
             </div>
         </div>
     </div>
+
+    <!-- Hamburger Script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const hamburger = document.querySelector('.hamburger');
+    const sidebar = document.querySelector('.sidebar');
+    
+    if (hamburger && sidebar) {
+        hamburger.addEventListener('click', function(e) {
+            e.stopPropagation();
+            hamburger.classList.toggle('active');
+            sidebar.classList.toggle('active');
+        });
+
+        // Close sidebar when clicking outside
+        document.addEventListener('click', function(event) {
+            if (sidebar.classList.contains('active') && !event.target.closest('.sidebar') && !event.target.closest('.hamburger')) {
+                hamburger.classList.remove('active');
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Close sidebar on link click
+        const sidebarLinks = sidebar.querySelectorAll('a:not(.disabled)');
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                sidebar.classList.remove('active');
+            });
+        });
+    }
+});
+</script>
 </body>
 
 </html>

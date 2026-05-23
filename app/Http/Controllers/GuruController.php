@@ -170,34 +170,49 @@ class GuruController extends Controller
     }
 
     public function updateProfil(Request $request)
-    {
-        $request->validate([
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|email|unique:users,email,'.Auth::id(),
-            'no_telp'  => 'nullable|string|max:20',
-            'mapel'    => 'nullable|string',
-            'kelas_diampu' => 'nullable|string',
-            'foto'     => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        ]);
+{
+    $user = auth()->user();
 
-        $user = Auth::user();
-        $data = $request->only(['name', 'email', 'no_telp']);
+    $request->validate([
+        'name'    => 'required|string|max:255',
+        'email'   => 'required|email|unique:users,email,' . $user->id,
+        'no_telp' => 'nullable|string|max:20',
+        'foto'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+    ]);
 
-        if ($request->hasFile('foto')) {
-            // Delete old photo if exists
-            if ($user->foto && file_exists(public_path($user->foto))) {
-                @unlink(public_path($user->foto));
-            }
-            // Save directly to public/uploads/profil (Avoid Symlink Issues)
-            $file = $request->file('foto');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('uploads/profil'), $filename);
-            
-            $data['foto'] = 'uploads/profil/' . $filename;
+    $user->name = $request->name;
+    $user->email = $request->email;
+    $user->no_telp = $request->no_telp;
+
+    if ($request->hasFile('foto')) {
+        $uploadFolder = 'uploads/profil-guru';
+
+        // Simpan langsung ke public_html/uploads/profil-guru
+        $folderPath = rtrim($_SERVER['DOCUMENT_ROOT'], '/') . '/' . $uploadFolder;
+
+        if (!file_exists($folderPath)) {
+            mkdir($folderPath, 0755, true);
         }
 
-        $user->update($data);
+        // Hapus foto lama jika ada
+        if (!empty($user->foto)) {
+            $oldFile = rtrim($_SERVER['DOCUMENT_ROOT'], '/') . '/' . $user->foto;
 
-        return back()->with('success', 'Profil berhasil diperbarui!');
+            if (file_exists($oldFile)) {
+                @unlink($oldFile);
+            }
+        }
+
+        $file = $request->file('foto');
+        $filename = 'guru_' . $user->id . '_' . time() . '.' . $file->getClientOriginalExtension();
+
+        $file->move($folderPath, $filename);
+
+        $user->foto = $uploadFolder . '/' . $filename;
+    }
+
+    $user->save();
+
+    return back()->with('success', 'Profil berhasil diperbarui!');
     }
 }

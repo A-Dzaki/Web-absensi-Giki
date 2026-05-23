@@ -1,0 +1,1064 @@
+:root {
+    --bg: #cfd9ea;
+    --ink: #1f2a44;
+    --muted: #6b7a99;
+    --card: #f3f6fc;
+    --card-deep: #dce5fa;
+    --accent: #4e7bd9;
+    --accent-soft: #6ea8fe;
+    --radius-lg: 18px;
+    --radius-md: 14px;
+}
+
+[data-theme="dark"] {
+    --bg: #1a1f2c;
+    --ink: #cfd9ea;
+    --muted: #8b9bb4;
+    --card: #252b3b;
+    --card-deep: #1f2533;
+    --accent: #6ea8fe;
+    --accent-soft: #4e7bd9;
+
+    /* Overrides for specific elements */
+    .sidebar {
+        background: #252b3b;
+    }
+
+    .btn-icon:hover {
+        background: #323a4d;
+    }
+
+    .panel {
+        background: #252b3b;
+        border-color: #323a4d;
+    }
+
+    .stat-card {
+        background: #252b3b;
+        border-color: #323a4d;
+    }
+
+    .tu-table thead {
+        background: #323a4d;
+    }
+
+    .tu-table tbody tr:nth-child(even) {
+        background: #2a3142;
+    }
+
+    .app {
+        background: #1a1f2c;
+    }
+
+    .topbar {
+        border-color: #323a4d;
+    }
+
+    .tu-select {
+        background: #252b3b;
+        border-color: #323a4d;
+        color: var(--ink);
+    }
+
+    .form-control,
+    .form-select {
+        background-color: #1f2533;
+        border-color: #323a4d;
+        color: var(--ink);
+    }
+
+    .modal-content {
+        background: #252b3b;
+    }
+
+    .nav-link {
+        color: var(--muted);
+    }
+}
+
+/* GENERAL */
+
+body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.app {
+    width: 100%;
+    min-height: 100vh;
+    background: #fbfdff;
+    /* Slightly lighter than card */
+    display: flex;
+    overflow: hidden;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    width: 88px;
+    background: #e6eeff;
+    padding: 1.25rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+.brand-circle {
+    width: 52px;
+    height: 52px;
+    border-radius: 999px;
+    background: linear-gradient(145deg, #4e7bd9, #6ea8fe);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    margin-bottom: .5rem;
+}
+
+.brand-short {
+    font-size: .9rem;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    margin-top: .5rem;
+}
+
+.btn-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 18px;
+    border: none;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #5672b3;
+    cursor: pointer;
+    transition: all .18s ease;
+}
+
+.btn-icon i {
+    font-size: 1.4rem;
+}
+
+.btn-icon:hover {
+    background: #d8e3ff;
+    transform: translateY(-1px);
+}
+
+.btn-icon.active {
+    background: linear-gradient(145deg, #4e7bd9, #6ea8fe);
+    color: #fff;
+    box-shadow: 0 8px 18px rgba(78, 123, 217, 0.45);
+}
+
+.sidebar-footer {
+    margin-top: auto;
+}
+
+/* MAIN AREA */
+
+.main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* TOPBAR */
+
+.topbar {
+    padding: 1.2rem 1.8rem 0.8rem;
+    border-bottom: 1px solid rgba(108, 122, 163, 0.14);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.topbar-title h1 {
+    font-size: 1.05rem;
+    margin: 0;
+}
+
+.topbar-subtitle {
+    margin: 0;
+    font-size: .85rem;
+    color: var(--muted);
+}
+
+.topbar-user {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+}
+
+.profile-chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, .55);
+    padding: 10px 14px;
+    border-radius: 999px;
+    box-shadow: 0 6px 18px rgba(36, 58, 112, .08)
+}
+
+.avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #8cb0f0, #4f78c8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 700
+}
+
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    background: #fff;
+    border: 2px solid var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .8rem;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+/* CONTENT WRAPPER */
+
+.content {
+    flex: 1;
+    overflow: auto;
+}
+
+/* CARDS / PANELS */
+
+.stat-card {
+    background: linear-gradient(145deg, #f7f9ff, #e7efff);
+    border-radius: var(--radius-md);
+    padding: .9rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+    border: 1px solid rgba(126, 150, 203, 0.22);
+}
+
+.stat-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 14px;
+    background: radial-gradient(circle at 0 0, #6ea8fe, #4e7bd9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+
+.stat-label {
+    font-size: .78rem;
+    color: var(--muted);
+    margin-bottom: .1rem;
+}
+
+.stat-value {
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+.panel {
+    background: rgba(246, 249, 255, 0.95);
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(126, 150, 203, 0.22);
+    padding: 1rem 1.1rem;
+}
+
+.panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5rem;
+    margin-bottom: .75rem;
+}
+
+.panel-header h2 {
+    font-size: .95rem;
+    margin: 0;
+}
+
+.panel-body {
+    font-size: .86rem;
+}
+
+/* TABLES */
+
+.tu-table thead {
+    background: #e3ebff;
+}
+
+.tu-table thead th {
+    border-bottom-width: 0;
+    font-size: .8rem;
+    color: var(--muted);
+}
+
+.tu-table tbody td {
+    vertical-align: middle;
+    font-size: .82rem;
+}
+
+.tu-table tbody tr:nth-child(even) {
+    background: #f7f9ff;
+}
+
+/* TABS */
+
+.page-heading {
+    font-size: 1rem;
+}
+
+.tu-tabs .nav-link {
+    border-radius: 999px;
+    padding: .25rem .9rem;
+    font-size: .82rem;
+    color: var(--muted);
+}
+
+.tu-tabs .nav-link.active {
+    background: #4e7bd9;
+    color: #fff;
+}
+
+.tab-content-tu {
+    margin-top: .5rem;
+}
+
+.tab-pane-tu {
+    display: none;
+}
+
+.tab-pane-tu.active {
+    display: block;
+}
+
+/* FORM & MODAL */
+
+.tu-select {
+    background: #f4f6ff;
+    border: 1px solid rgba(126, 150, 203, 0.32);
+}
+
+.tu-form .form-label {
+    font-size: .8rem;
+    color: var(--muted);
+}
+
+.tu-form .form-control,
+.tu-form .form-select,
+.tu-form textarea {
+    font-size: .84rem;
+    border-radius: 12px;
+    border-color: rgba(126, 150, 203, 0.55);
+}
+
+.tu-form .form-control:focus,
+.tu-form .form-select:focus,
+.tu-form textarea:focus {
+    box-shadow: 0 0 0 0.12rem rgba(78, 123, 217, 0.25);
+    border-color: var(--accent);
+}
+
+.btn-tambah {
+    background: #4e7bd9;
+    border-radius: 999px;
+    color: #fff;
+    border: none;
+    padding-inline: 1rem;
+}
+
+.btn-tambah:hover {
+    background: #4068bc;
+}
+
+/* Modal */
+
+.tu-modal {
+    border-radius: 22px;
+    overflow: hidden;
+}
+
+/* PROFILE PAGE */
+
+.profile-photo {
+    width: 250px;
+    height: 250px;
+    border-radius: 999px;
+    overflow: hidden;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+    border: 4px solid #ffffff;
+}
+
+.profile-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ===== Dashboard charts full height ===== */
+
+.content-dashboard {
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-charts {
+    flex: 1;
+    align-items: stretch;
+}
+
+.panel-chart {
+    display: flex;
+    flex-direction: column;
+}
+
+.panel-body-chart {
+    flex: 1;
+    min-height: 320px;
+    position: relative;
+}
+
+.panel-body-chart canvas {
+    width: 100% !important;
+    height: auto !important;
+}
+
+/* ==================== RESPONSIVE ==================== */
+
+/* Medium devices (tablets & landscape) - 768px to 1024px */
+@media (max-width: 1024px) {
+    .app {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        min-width: 100%;
+        padding: 0.5rem;
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 0.75rem;
+        order: -1;
+        height: auto;
+    }
+
+    .brand-circle {
+        width: 44px;
+        height: 44px;
+        font-size: 0.8rem;
+        margin-bottom: 0;
+    }
+
+    .sidebar-nav {
+        display: flex;
+        flex-direction: row;
+        gap: 0.4rem;
+    }
+
+    .btn-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        flex-shrink: 0;
+    }
+
+    .btn-icon i {
+        font-size: 1.2rem;
+    }
+
+    .sidebar-footer {
+        margin-left: auto;
+        margin-top: 0;
+        display: flex;
+        gap: 0.4rem;
+    }
+
+    .main {
+        flex: 1;
+        overflow-y: auto;
+    }
+
+    .topbar {
+        padding: 1rem 1.2rem 0.6rem;
+    }
+
+    .topbar-title h1 {
+        font-size: 0.95rem;
+    }
+
+    .topbar-subtitle {
+        font-size: 0.8rem;
+    }
+
+    .profile-chip {
+        padding: 8px 12px;
+        gap: 8px;
+        font-size: 0.85rem;
+    }
+
+    .avatar {
+        width: 32px;
+        height: 32px;
+        font-size: 0.9rem;
+    }
+
+    .user-avatar {
+        width: 36px;
+        height: 36px;
+        font-size: 0.75rem;
+    }
+
+    .stat-card {
+        padding: 0.8rem 0.9rem;
+        gap: 0.7rem;
+    }
+
+    .stat-icon {
+        width: 36px;
+        height: 36px;
+    }
+
+    .stat-label {
+        font-size: 0.75rem;
+    }
+
+    .stat-value {
+        font-size: 1.1rem;
+    }
+
+    .panel {
+        padding: 0.9rem 1rem;
+        border-radius: 14px;
+    }
+
+    .panel-header h2 {
+        font-size: 0.9rem;
+    }
+
+    .panel-body {
+        font-size: 0.82rem;
+    }
+
+    .tu-table thead th {
+        font-size: 0.75rem;
+        padding: 8px 6px;
+    }
+
+    .tu-table tbody td {
+        font-size: 0.78rem;
+        padding: 8px 6px;
+    }
+
+    .tu-tabs .nav-link {
+        padding: 0.2rem 0.8rem;
+        font-size: 0.78rem;
+    }
+
+    .page-heading {
+        font-size: 0.95rem;
+    }
+
+    .btn-tambah {
+        padding-inline: 0.8rem;
+        font-size: 0.9rem;
+    }
+
+    .profile-photo {
+        width: 180px;
+        height: 180px;
+    }
+
+    .panel-body-chart {
+        min-height: 280px;
+    }
+}
+
+/* Small devices (phones landscape & tablets) - 576px to 768px */
+@media (max-width: 768px) {
+    .sidebar {
+        padding: 0.4rem;
+        gap: 0.5rem;
+    }
+
+    .brand-circle {
+        width: 40px;
+        height: 40px;
+        font-size: 0.75rem;
+    }
+
+    .btn-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+    }
+
+    .btn-icon i {
+        font-size: 1.1rem;
+    }
+
+    .topbar {
+        padding: 0.8rem 1rem 0.5rem;
+        gap: 0.75rem;
+    }
+
+    .topbar-title h1 {
+        font-size: 0.9rem;
+    }
+
+    .topbar-subtitle {
+        font-size: 0.75rem;
+    }
+
+    .topbar-user {
+        gap: 0.5rem;
+    }
+
+    .profile-chip {
+        padding: 6px 10px;
+        gap: 6px;
+        font-size: 0.8rem;
+    }
+
+    .avatar {
+        width: 28px;
+        height: 28px;
+        font-size: 0.8rem;
+    }
+
+    .user-avatar {
+        width: 32px;
+        height: 32px;
+        font-size: 0.7rem;
+        border-width: 1.5px;
+    }
+
+    .stat-card {
+        padding: 0.7rem 0.8rem;
+        gap: 0.6rem;
+        border-radius: 12px;
+    }
+
+    .stat-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 10px;
+    }
+
+    .stat-label {
+        font-size: 0.7rem;
+    }
+
+    .stat-value {
+        font-size: 1rem;
+    }
+
+    .panel {
+        padding: 0.8rem 0.9rem;
+        border-radius: 12px;
+        border-width: 0.5px;
+    }
+
+    .panel-header {
+        margin-bottom: 0.6rem;
+        gap: 0.3rem;
+    }
+
+    .panel-header h2 {
+        font-size: 0.85rem;
+    }
+
+    .panel-body {
+        font-size: 0.78rem;
+    }
+
+    .tu-table thead th {
+        font-size: 0.7rem;
+        padding: 6px 4px;
+    }
+
+    .tu-table tbody td {
+        font-size: 0.74rem;
+        padding: 6px 4px;
+    }
+
+    .tu-tabs .nav-link {
+        padding: 0.15rem 0.6rem;
+        font-size: 0.74rem;
+        border-radius: 999px;
+    }
+
+    .page-heading {
+        font-size: 0.9rem;
+    }
+
+    .tu-form .form-label {
+        font-size: 0.75rem;
+    }
+
+    .tu-form .form-control,
+    .tu-form .form-select,
+    .tu-form textarea {
+        font-size: 0.8rem;
+        padding: 6px 10px;
+        border-radius: 10px;
+    }
+
+    .btn-tambah {
+        padding-inline: 0.7rem;
+        font-size: 0.85rem;
+        padding-block: 0.4rem;
+    }
+
+    .profile-photo {
+        width: 150px;
+        height: 150px;
+        border-width: 3px;
+    }
+
+    .panel-body-chart {
+        min-height: 240px;
+    }
+
+    .content {
+        padding: 1rem;
+    }
+}
+
+/* Extra small devices (small phones) - below 576px */
+@media (max-width: 576px) {
+    .sidebar {
+        gap: 0.3rem;
+        padding: 0.3rem;
+    }
+
+    .brand-circle {
+        width: 36px;
+        height: 36px;
+        font-size: 0.7rem;
+        margin-bottom: 0;
+    }
+
+    .btn-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        margin: 2px;
+    }
+
+    .btn-icon i {
+        font-size: 1rem;
+    }
+
+    .topbar {
+        padding: 0.6rem 0.8rem 0.4rem;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+
+    .topbar-title h1 {
+        font-size: 0.8rem;
+        width: 100%;
+    }
+
+    .topbar-subtitle {
+        font-size: 0.65rem;
+        display: none;
+    }
+
+    .topbar-user {
+        width: 100%;
+        justify-content: flex-end;
+        gap: 0.4rem;
+    }
+
+    .profile-chip {
+        padding: 4px 8px;
+        gap: 4px;
+        font-size: 0.7rem;
+    }
+
+    .profile-chip div:last-child {
+        display: none;
+    }
+
+    .avatar {
+        width: 24px;
+        height: 24px;
+        font-size: 0.7rem;
+    }
+
+    .user-avatar {
+        width: 28px;
+        height: 28px;
+        font-size: 0.65rem;
+        border-width: 1px;
+    }
+
+    .stat-card {
+        padding: 0.6rem 0.7rem;
+        gap: 0.5rem;
+        border-radius: 10px;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .stat-icon {
+        width: 28px;
+        height: 28px;
+        border-radius: 8px;
+        margin: 0 auto;
+    }
+
+    .stat-label {
+        font-size: 0.65rem;
+    }
+
+    .stat-value {
+        font-size: 0.95rem;
+    }
+
+    .panel {
+        padding: 0.7rem 0.8rem;
+        border-radius: 10px;
+        margin-bottom: 0.8rem;
+    }
+
+    .panel-header {
+        margin-bottom: 0.5rem;
+        gap: 0.2rem;
+    }
+
+    .panel-header h2 {
+        font-size: 0.8rem;
+    }
+
+    .panel-body {
+        font-size: 0.74rem;
+        overflow-x: auto;
+    }
+
+    .tu-table {
+        font-size: 0.7rem;
+    }
+
+    .tu-table thead th {
+        font-size: 0.65rem;
+        padding: 4px 2px;
+    }
+
+    .tu-table tbody td {
+        font-size: 0.7rem;
+        padding: 4px 2px;
+    }
+
+    .tu-tabs .nav-link {
+        padding: 0.1rem 0.5rem;
+        font-size: 0.7rem;
+    }
+
+    .tu-tabs .nav-link.active {
+        font-weight: 600;
+    }
+
+    .page-heading {
+        font-size: 0.85rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .tu-select {
+        font-size: 0.8rem;
+        padding: 6px 8px;
+    }
+
+    .tu-form .form-label {
+        font-size: 0.7rem;
+        font-weight: 600;
+    }
+
+    .tu-form .form-control,
+    .tu-form .form-select,
+    .tu-form textarea {
+        font-size: 0.75rem;
+        padding: 5px 8px;
+        border-radius: 8px;
+    }
+
+    .btn-tambah {
+        padding-inline: 0.6rem;
+        padding-block: 0.35rem;
+        font-size: 0.8rem;
+    }
+
+    .profile-photo {
+        width: 120px;
+        height: 120px;
+        border-width: 2px;
+        margin: 0 auto;
+    }
+
+    .panel-body-chart {
+        min-height: 200px;
+    }
+
+    .content {
+        padding: 0.75rem;
+    }
+
+    .panel-chart {
+        margin-bottom: 0.75rem;
+    }
+
+    /* Hide subtitle on mobile */
+    .topbar-subtitle {
+        display: none;
+    }
+
+    /* Optimize modal for mobile */
+    .tu-modal {
+        border-radius: 16px;
+    }
+
+    /* Stack form controls better */
+    .tu-form {
+        margin-top: 0.5rem;
+    }
+
+    .tu-form .mb-3 {
+        margin-bottom: 0.75rem !important;
+    }
+}
+
+/* ==================== HAMBURGER MENU & SIDEBAR OVERRIDE ==================== */
+.hamburger {
+    display: none;
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    z-index: 1000;
+    margin-right: 12px;
+}
+
+.hamburger span {
+    width: 24px;
+    height: 2px;
+    background: currentColor;
+    margin: 4px 0;
+    transition: 0.3s;
+    display: block;
+    border-radius: 2px;
+}
+
+.hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+.hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+}
+
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex;
+        color: var(--text-primary, var(--ink));
+    }
+    
+    .sidebar {
+        position: fixed !important;
+        top: 0 !important;
+        left: -100% !important;
+        width: 260px !important;
+        height: 100vh !important;
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+        align-items: flex-start !important;
+        transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        z-index: 9999 !important;
+        box-shadow: 4px 0 24px rgba(0,0,0,0.15) !important;
+        padding: 20px 15px !important;
+        background: var(--bg-sidebar, #fff) !important;
+        overflow-y: auto !important;
+    }
+
+    [data-theme="dark"] .sidebar {
+        box-shadow: 4px 0 24px rgba(0,0,0,0.5) !important;
+        background: var(--bg-sidebar, #1e293b) !important;
+    }
+
+    .sidebar.active {
+        left: 0 !important;
+    }
+    
+    .sidebar .btn-icon {
+        width: 100% !important;
+        justify-content: flex-start !important;
+        padding-left: 15px !important;
+        border-radius: 12px !important;
+        margin: 5px 0 !important;
+        height: 48px !important;
+    }
+    
+    .sidebar .btn-icon i {
+        margin-right: 15px;
+        width: 20px;
+        text-align: center;
+    }
+    
+    /* Add text labels to sidebar buttons on mobile since they have space */
+    .sidebar .btn-icon::after {
+        content: attr(title);
+        font-size: 0.95rem;
+        font-weight: 500;
+        display: block;
+    }
+    
+    .sidebar-footer {
+        width: 100%;
+        flex-direction: column !important;
+        gap: 0 !important;
+        margin-top: auto !important;
+        padding-top: 20px !important;
+        border-top: 1px solid rgba(128,128,128,0.2) !important;
+    }
+
+    /* Page Header adjustments to align hamburger */
+    .page-header, .topbar {
+        display: flex;
+        align-items: center;
+        flex-wrap: nowrap !important;
+    }
+    
+    /* Ensure tables can be scrolled horizontally */
+    .table-responsive, .panel-body, .status-box, .mapel-table-container {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        width: 100% !important;
+    }
+}

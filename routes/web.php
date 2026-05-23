@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ForgotPasswordCustomController;
 use App\Http\Controllers\Auth\ResetPasswordCustomController;
+use App\Http\Controllers\SetupAccountController;
 
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\SiswaController;
@@ -125,10 +126,25 @@ Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->na
 Route::post('/register', [RegisterController::class, 'register']);
 
 // ===== PASSWORD RESET =====
-Route::get('/password/reset', [ForgotPasswordCustomController::class, 'showLinkForm'])->name('password.request');
-Route::post('/password/email', [ForgotPasswordCustomController::class, 'sendResetLink'])->name('password.email');
-Route::get('/password/reset/{token}', [ResetPasswordCustomController::class, 'showResetForm'])->name('password.reset');
-Route::post('/password/reset', [ResetPasswordCustomController::class, 'resetPassword'])->name('password.update');
+Route::get('/password/reset', [ForgotPasswordCustomController::class, 'showLinkForm'])
+    ->name('password.request');
+
+Route::post('/password/email', [ForgotPasswordCustomController::class, 'sendResetLink'])
+    ->name('password.email');
+
+Route::get('/password/reset/{token}', [ResetPasswordCustomController::class, 'showResetForm'])
+    ->name('password.reset');
+
+Route::post('/password/reset', [ResetPasswordCustomController::class, 'resetPassword'])
+    ->name('password.update');
+
+
+// ===== SETUP ACCOUNT GURU =====
+Route::get('/setup-account/{token}', [SetupAccountController::class, 'showForm'])
+    ->name('setup.account');
+
+Route::post('/setup-account/{token}', [SetupAccountController::class, 'store'])
+    ->name('setup.account.save');
 
 
 // ===========================
@@ -204,3 +220,14 @@ Route::middleware(['auth', 'role:tatausaha'])
         // Logs
         Route::get('/logs', [TataUsahaController::class, 'logAktivitas'])->name('logs');
     });
+    use Illuminate\Support\Facades\Mail;
+
+    Route::get('/test-email', function () {
+
+        Mail::raw('Test email berhasil', function ($message) {
+          $message->to('ardinpratama43@gmail.com')
+                ->subject('SMTP TEST');
+    });
+
+    return 'Email berhasil dikirim';
+});

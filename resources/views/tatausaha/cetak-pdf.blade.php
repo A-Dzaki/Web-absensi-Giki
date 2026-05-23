@@ -27,7 +27,7 @@
         </p>
     </div>
 
-    <table>
+    <div class="table-responsive"><table>
         <thead>
             <tr>
                 <th class="text-center">No</th>
@@ -62,12 +62,45 @@
             </tr>
             @endforeach
         </tbody>
-    </table>
+    </table></div>
 
     <div style="margin-top: 30px; float: right; width: 200px; text-align: center;">
         <p>Surabaya, {{ date('d F Y') }} <br> Mengetahui,</p>
         <br><br><br>
         <p><strong>{{ $kelasData->walikelas ?? '.........................' }}</strong><br>Wali Kelas</p>
     </div>
+
+    <!-- Hamburger Script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const hamburger = document.querySelector('.hamburger');
+    const sidebar = document.querySelector('.sidebar');
+    
+    if (hamburger && sidebar) {
+        hamburger.addEventListener('click', function(e) {
+            e.stopPropagation();
+            hamburger.classList.toggle('active');
+            sidebar.classList.toggle('active');
+        });
+
+        // Close sidebar when clicking outside
+        document.addEventListener('click', function(event) {
+            if (sidebar.classList.contains('active') && !event.target.closest('.sidebar') && !event.target.closest('.hamburger')) {
+                hamburger.classList.remove('active');
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Close sidebar on link click
+        const sidebarLinks = sidebar.querySelectorAll('a:not(.disabled)');
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                sidebar.classList.remove('active');
+            });
+        });
+    }
+});
+</script>
 </body>
 </html>

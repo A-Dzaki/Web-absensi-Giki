@@ -5,10 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Kelola Guru - Tata Usaha | SMP GIKI 2 Surabaya</title>
-
+    
+    <link rel="icon" type="image/png" href="{{ asset('uploads/logo-giki.png') }}">
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="{{ asset('css/styletu.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/styletu.css') . '?v=' . time() }}" rel="stylesheet">
 </head>
 
 <body data-page="guru">
@@ -50,6 +51,12 @@
         <!-- ==================== MAIN ==================== -->
         <main class="main">
             <header class="topbar">
+                <button class="hamburger d-md-none" aria-label="Toggle navigation">
+    <span></span>
+    <span></span>
+    <span></span>
+</button>
+
                 <div class="topbar-title">
                     <h1>Absensi Siswa | SMP GIKI 2 Surabaya</h1>
                     <p class="topbar-subtitle">Kelola Data Guru</p>
@@ -204,7 +211,6 @@
             // Elements in Edit Form
             const inputName = editModal.querySelector('input[name="name"]');
             const inputNis = editModal.querySelector('input[name="nis"]');
-            const inputUsername = editModal.querySelector('input[name="username"]');
             const inputEmail = editModal.querySelector('input[name="email"]');
             const inputTelp = editModal.querySelector('input[name="no_telp"]');
             const inputMapel = editModal.querySelector('input[name="mapel"]');
@@ -279,7 +285,6 @@
                     // Populate Fields
                     inputName.value = data.name;
                     inputNis.value = data.nis || '';
-                    inputUsername.value = data.username;
                     inputEmail.value = data.email;
                     inputTelp.value = data.no_telp || '';
                     inputMapel.value = data.mapel || '';
@@ -316,67 +321,110 @@
     <div class="modal fade" id="modalTambahGuru" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content tu-modal">
+
                 <form action="{{ route('tatausaha.guru.store') }}" method="POST">
                     @csrf
+
                     <div class="modal-header border-0">
                         <h5 class="modal-title">Tambah Data Guru</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
+
                     <div class="modal-body">
+
                         <div class="mb-3">
-                            <label class="form-label">Nama Lengkap <span class="text-danger">*</span></label>
+                            <label class="form-label">
+                                Nama Lengkap
+                                <span class="text-danger">*</span>
+                            </label>
+
                             <input type="text" name="name" class="form-control" required
                                 placeholder="Nama lengkap guru">
                         </div>
+
                         <div class="row g-2">
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label">NIP <span class="text-danger">*</span></label>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">
+                                    NIP
+                                </label>
+
                                 <input type="number" name="nis" class="form-control" placeholder="Opsional">
                             </div>
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label">Username <span class="text-danger">*</span></label>
-                                <input type="text" name="username" class="form-control" required>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label">Password <span class="text-danger">*</span></label>
-                                <input type="password" name="password" class="form-control" required
-                                    placeholder="Min. 6 karakter">
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Email <span class="text-danger">*</span></label>
-                            <input type="email" name="email" class="form-control" required>
-                        </div>
-                        <div class="row g-2">
+
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">No. Telepon</label>
+                                <label class="form-label">
+                                    Email
+                                    <span class="text-danger">*</span>
+                                </label>
+
+                                <input type="email" name="email" class="form-control" required
+                                    placeholder="emailguru@gmail.com">
+                            </div>
+
+                        </div>
+
+                        <div class="alert alert-info small">
+                            <i class="bi bi-envelope-fill me-1"></i>
+                            Username dan password akan dibuat sendiri oleh guru melalui email yang dikirim sistem.
+                        </div>
+
+                        <div class="row g-2">
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">
+                                    No. Telepon
+                                </label>
+
                                 <input type="text" name="no_telp" class="form-control">
                             </div>
+
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Mata Pelajaran</label>
+                                <label class="form-label">
+                                    Mata Pelajaran
+                                </label>
+
                                 <input type="text" name="mapel" class="form-control" placeholder="Opsional">
                             </div>
+
                         </div>
+
                         <div class="mb-3">
+
                             <div class="d-flex justify-content-between align-items-center mb-2">
-                                <label class="form-label mb-0">Jadwal Mengajar</label>
+                                <label class="form-label mb-0">
+                                    Jadwal Mengajar
+                                </label>
+
                                 <button type="button" class="btn btn-sm btn-outline-success" id="btnAddScheduleCreate">
-                                    <i class="bi bi-plus-lg"></i> Tambah
+
+                                    <i class="bi bi-plus-lg"></i>
+                                    Tambah
                                 </button>
                             </div>
+
                             <div id="scheduleContainerCreate">
                                 <!-- Dynamic Rows Here -->
                             </div>
+
                         </div>
+
                     </div>
+
                     <div class="modal-footer border-0 p-0 mt-3">
-                        <button type="submit" class="btn btn-primary w-100">Simpan Data Guru</button>
+
+                        <button type="submit" class="btn btn-primary w-100">
+
+                            Simpan Data Guru
+                        </button>
+
                     </div>
+
                 </form>
+
             </div>
         </div>
     </div>
-
     <!-- MODAL EDIT GURU -->
     <div class="modal fade" id="modalEditGuru" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
@@ -394,18 +442,9 @@
                             <input type="text" name="name" class="form-control" required>
                         </div>
                         <div class="row g-2">
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-12 mb-3">
                                 <label class="form-label">NIP</label>
                                 <input type="number" name="nis" class="form-control">
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label">Username <span class="text-danger">*</span></label>
-                                <input type="text" name="username" class="form-control" required>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label">Password</label>
-                                <input type="password" name="password" class="form-control"
-                                    placeholder="Kosongkan jika tidak ubah">
                             </div>
                         </div>
                         <div class="mb-3">
@@ -502,6 +541,39 @@
             });
         </script>
     @endif
+
+    <!-- Hamburger Script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const hamburger = document.querySelector('.hamburger');
+    const sidebar = document.querySelector('.sidebar');
+    
+    if (hamburger && sidebar) {
+        hamburger.addEventListener('click', function(e) {
+            e.stopPropagation();
+            hamburger.classList.toggle('active');
+            sidebar.classList.toggle('active');
+        });
+
+        // Close sidebar when clicking outside
+        document.addEventListener('click', function(event) {
+            if (sidebar.classList.contains('active') && !event.target.closest('.sidebar') && !event.target.closest('.hamburger')) {
+                hamburger.classList.remove('active');
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Close sidebar on link click
+        const sidebarLinks = sidebar.querySelectorAll('a:not(.disabled)');
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                sidebar.classList.remove('active');
+            });
+        });
+    }
+});
+</script>
 </body>
 
 </html>

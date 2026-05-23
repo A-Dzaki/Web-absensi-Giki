@@ -5,10 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Kehadiran | Absensi SMP GIKI 2 Surabaya</title>
-
+    
+    <link rel="icon" type="image/png" href="{{ asset('uploads/logo-giki.png') }}">
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="{{ asset('css/stylesiswa.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/stylesiswa.css') . '?v=' . time() }}" rel="stylesheet">
 </head>
 
 <body>
@@ -81,9 +82,12 @@
                 
                 <div class="p-3 bg-light border-bottom">
                     <form action="{{ route('siswa.detail') }}" method="GET" class="row g-2 align-items-center">
+                        @if(request('tanggal'))
+                            <input type="hidden" name="tanggal" value="{{ request('tanggal') }}">
+                        @endif
                         <div class="col-auto">
                             <label class="visually-hidden">Mata Pelajaran</label>
-                            <select name="mapel" class="form-select form-select-sm">
+                            <select name="mapel" class="form-select form-select-sm" onchange="this.form.submit()">
                                 <option value="">Semua Mapel</option>
                                 @foreach($mapelList as $m)
                                     <option value="{{ $m }}" {{ ($selectedMapel ?? '') == $m ? 'selected' : '' }}>
@@ -93,9 +97,6 @@
                             </select>
                         </div>
                         <div class="col-auto">
-                            <button type="submit" class="btn btn-primary btn-sm">
-                                <i class="bi bi-search"></i> Cari
-                            </button>
                             @if(request()->filled('tanggal') || request()->filled('mapel'))
                                 <a href="{{ route('siswa.detail') }}" class="btn btn-secondary btn-sm">
                                     <i class="bi bi-x-circle"></i> Reset
@@ -189,6 +190,39 @@
             </div>
         </div>
     </div>
+
+    <!-- Hamburger Script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const hamburger = document.querySelector('.hamburger');
+    const sidebar = document.querySelector('.sidebar');
+    
+    if (hamburger && sidebar) {
+        hamburger.addEventListener('click', function(e) {
+            e.stopPropagation();
+            hamburger.classList.toggle('active');
+            sidebar.classList.toggle('active');
+        });
+
+        // Close sidebar when clicking outside
+        document.addEventListener('click', function(event) {
+            if (sidebar.classList.contains('active') && !event.target.closest('.sidebar') && !event.target.closest('.hamburger')) {
+                hamburger.classList.remove('active');
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Close sidebar on link click
+        const sidebarLinks = sidebar.querySelectorAll('a:not(.disabled)');
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                sidebar.classList.remove('active');
+            });
+        });
+    }
+});
+</script>
 </body>
 
 </html>

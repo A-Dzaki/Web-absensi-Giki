@@ -5,10 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Siswa | Absensi SMP GIKI 2 Surabaya</title>
-
+    
+    <link rel="icon" type="image/png" href="{{ asset('uploads/logo-giki.png') }}">
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="{{ asset('css/stylesiswa.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/stylesiswa.css') . '?v=' . time() }}" rel="stylesheet">
 </head>
 
 <body>
@@ -47,6 +48,12 @@
         <!-- ==================== MAIN CONTENT ==================== -->
         <main class="page flex-grow-1">
             <div class="page-header d-flex justify-content-between align-items-start">
+                <button class="hamburger d-md-none" aria-label="Toggle navigation">
+    <span></span>
+    <span></span>
+    <span></span>
+</button>
+
                 <div>
                     <h5 class="brand-title mb-1">
                         Absensi Siswa <span class="fw-normal">| SMP GIKI 2 Surabaya</span>
@@ -141,7 +148,7 @@
                 </div>
                 <div class="modal-body p-4">
                     <div class="status-box shadow-sm mx-auto w-100">
-                        <table class="w-100">
+                        <div class="table-responsive"><table class="w-100">
                             <tr>
                                 <td class="text-muted">No. Induk Siswa</td>
                                 <td class="fw-bold text-end">{{ Auth::user()->nis ?? '-' }}</td>
@@ -166,7 +173,7 @@
                                     </span>
                                 </td>
                             </tr>
-                        </table>
+                        </table></div>
                     </div>
                     <div class="text-center mt-3 small text-muted">
                         <i class="bi bi-broadcast me-1"></i> Menunggu tap kartu RFID...
@@ -266,6 +273,39 @@
             </div>
         </div>
     </div>
+
+    <!-- Hamburger Script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const hamburger = document.querySelector('.hamburger');
+    const sidebar = document.querySelector('.sidebar');
+    
+    if (hamburger && sidebar) {
+        hamburger.addEventListener('click', function(e) {
+            e.stopPropagation();
+            hamburger.classList.toggle('active');
+            sidebar.classList.toggle('active');
+        });
+
+        // Close sidebar when clicking outside
+        document.addEventListener('click', function(event) {
+            if (sidebar.classList.contains('active') && !event.target.closest('.sidebar') && !event.target.closest('.hamburger')) {
+                hamburger.classList.remove('active');
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Close sidebar on link click
+        const sidebarLinks = sidebar.querySelectorAll('a:not(.disabled)');
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                sidebar.classList.remove('active');
+            });
+        });
+    }
+});
+</script>
 </body>
 
 </html>

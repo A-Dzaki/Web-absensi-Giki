@@ -32,6 +32,7 @@ class User extends Authenticatable
         'foto',
         'mapel',
         'kelas_diampu',
+        'remember_token',
     ];
 
 

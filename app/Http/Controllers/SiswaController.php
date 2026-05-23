@@ -149,31 +149,50 @@ class SiswaController extends Controller
         return view('siswa.profil-siswa'); 
     }
 
-    public function updateProfil(Request $request) 
-    {
-        $data = $request->validate([
-            'email'  => 'required|email|unique:users,email,' . auth()->id(),
-            'no_telp'=> 'nullable',
-            'alamat' => 'nullable'
-        ]);
+   public function updateProfil(Request $request) 
+{
+    $user = auth()->user();
 
-        if ($request->hasFile('foto')) {
+    $request->validate([
+        'email'   => 'required|email|unique:users,email,' . $user->id,
+        'no_telp' => 'nullable|string|max:20',
+        'alamat'  => 'nullable|string|max:255',
+        'foto'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+    ]);
 
-            // hapus foto lama
-            if (auth()->user()->foto && file_exists(public_path(auth()->user()->foto))) {
-                @unlink(public_path(auth()->user()->foto));
-            }
+    $user->email = $request->email;
+    $user->no_telp = $request->no_telp;
+    $user->alamat = $request->alamat;
 
-            // Simpan langsung ke public/uploads/profil-siswa (Bypass Symlink)
-            $file = $request->file('foto');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('uploads/profil-siswa'), $filename);
-            
-            $data['foto'] = 'uploads/profil-siswa/' . $filename;
+    if ($request->hasFile('foto')) {
+        $uploadFolder = 'uploads/profil-siswa';
+
+        // Simpan langsung ke public_html/uploads/profil-siswa
+        $folderPath = rtrim($_SERVER['DOCUMENT_ROOT'], '/') . '/' . $uploadFolder;
+
+        if (!file_exists($folderPath)) {
+            mkdir($folderPath, 0755, true);
         }
 
-        auth()->user()->update($data);
+        // Hapus foto lama jika ada
+        if (!empty($user->foto)) {
+            $oldFile = rtrim($_SERVER['DOCUMENT_ROOT'], '/') . '/' . $user->foto;
 
-        return back()->with('success', 'Profil diperbarui!');
+            if (file_exists($oldFile)) {
+                @unlink($oldFile);
+            }
+        }
+
+        $file = $request->file('foto');
+        $filename = 'siswa_' . $user->id . '_' . time() . '.' . $file->getClientOriginalExtension();
+
+        $file->move($folderPath, $filename);
+
+        $user->foto = $uploadFolder . '/' . $filename;
+    }
+
+    $user->save();
+
+    return back()->with('success', 'Profil diperbarui!');
     }
 }

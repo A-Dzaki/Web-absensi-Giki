@@ -8,6 +8,9 @@ use App\Models\Absensi;
 use App\Models\Kelas;
 use Illuminate\Support\Facades\Storage;
 use App\Rules\ValidEmail;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class TataUsahaController extends Controller
 {
@@ -294,35 +297,73 @@ class TataUsahaController extends Controller
         return back()->with('success', "Kelas {$namaKelas} berhasil dihapus!");
     }
 
-    public function siswaStore(Request $request)
+   public function siswaStore(Request $request)
     {
-        // Map legacy form field `nis_nip` -> DB column `nis` if needed
-        if ($request->has('nis_nip') && !$request->has('nis')) {
-            $request->merge(['nis' => $request->input('nis_nip')]);
+        try {
+
+            if ($request->has('nis_nip') && !$request->has('nis')) {
+                $request->merge([
+                    'nis' => $request->input('nis_nip')
+                ]);
+            }
+
+            $data = $request->validate([
+                'nis' => 'required|unique:users,nis',
+                'name' => 'required',
+                'email' => 'required|email|unique:users,email',
+                'jenis_kelamin' => 'required|in:L,P',
+                'alamat' => 'nullable',
+                'kelas' => 'required',
+                'uid_rfid' => 'nullable|unique:users,uid_rfid',
+            ]);
+
+            // buat token setup akun
+            $token = Str::random(64);
+
+            // simpan siswa TANPA username/password
+            $siswa = User::create([
+                'nis' => $data['nis'],
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'jenis_kelamin' => $data['jenis_kelamin'],
+                'alamat' => $data['alamat'] ?? null,
+                'kelas' => $data['kelas'],
+                'uid_rfid' => $data['uid_rfid'] ?? null,
+                'role' => 'siswa',
+                'remember_token' => $token,
+            ]);
+
+            // link setup akun
+            $link = url('/setup-account/' . $token);
+
+            // kirim email
+            Mail::raw(
+                "Halo {$siswa->name},
+
+Silakan setup akun siswa Anda melalui link berikut:
+
+{$link}
+
+Absensi GIKI",
+                function ($message) use ($siswa) {
+                    $message->to($siswa->email)
+                        ->subject('Setup Akun Siswa');
+                }
+            );
+
+            return back()->with(
+                'success',
+                'Siswa berhasil ditambahkan dan email setup akun telah dikirim.'
+            );
+
+        } catch (\Exception $e) {
+
+            return back()->with(
+                'error',
+                'Gagal tambah siswa: ' . $e->getMessage()
+            );
         }
-
-        $data = $request->validate([
-            'nis' => 'required|unique:users,nis',
-            'name' => 'required',
-            'jenis_kelamin' => 'required|in:L,P',
-            'alamat' => 'nullable',
-            'kelas' => 'required', // Selected from existing Classes
-            'username' => 'required|unique:users,username',
-            'password' => 'required|min:6',
-            'uid_rfid' => 'nullable|unique:users,uid_rfid'
-        ]);
-
-        $data['password'] = bcrypt($data['password']);
-        $data['role'] = 'siswa';
-
-        // Auto-generate email because it's required by DB but not in form
-        $data['email'] = $data['username'] . '@student.giki';
-
-        User::create($data);
-
-        return back()->with('success', 'Siswa berhasil ditambahkan!');
     }
-
     // Update Siswa
     public function siswaUpdate(Request $request, $id)
     {
@@ -433,40 +474,63 @@ class TataUsahaController extends Controller
 
         $data = $request->validate([
             'name' => 'required',
-            'nis' => 'nullable|numeric|unique:users,nis', // NIP
-            'username' => 'required|unique:users,username',
-            'password' => 'required|min:6',
-            'email' => ['required', new ValidEmail, 'unique:users,email'],
+            'nis' => 'nullable|numeric|unique:users,nis',
+            'email' => 'required|email|unique:users,email',
             'no_telp' => 'nullable',
-            'mapel' => 'nullable'
+            'mapel' => 'nullable',
         ]);
 
-        $data['password'] = bcrypt($data['password']);
-        $data['role'] = 'guru';
+        // simpan guru tanpa username/password
+        $guru = User::create([
+            'name' => $data['name'],
+            'nis' => $data['nis'] ?? null,
+            'email' => $data['email'],
+            'no_telp' => $data['no_telp'] ?? null,
+            'mapel' => $data['mapel'] ?? null,
+            'role' => 'guru',
+        ]);
 
-        $guru = User::create($data);
+        // buat token setup akun
+        $token = \Illuminate\Support\Str::random(64);
 
-        // Sync Jadwal with Partial Save
-        $warningMsg = '';
-        if ($request->has('jadwals')) {
-            $result = $this->saveSchedulesWithConflictCheck($guru, $request->jadwals, $data['mapel'] ?? '-');
+        $guru->remember_token = $token;
+        $guru->save();
 
-            if (!empty($result['conflicts'])) {
-                $warningMsg = "Data berhasil disimpan, namun beberapa jadwal <b>dihapus otomatis</b> karena tabrakan:<br><ul>";
-                foreach ($result['conflicts'] as $c) {
-                    $warningMsg .= "<li>{$c}</li>";
+        // link setup akun
+        $link = url('/setup-account/' . $token);
+
+        // kirim email
+        try {
+
+            \Illuminate\Support\Facades\Mail::raw(
+                "Halo {$guru->name},
+
+Silakan buat username dan password akun Anda melalui link berikut:
+
+{$link}
+
+Absensi GIKI",
+                function ($message) use ($guru) {
+                    $message->to($guru->email)
+                        ->subject('Setup Akun Guru');
                 }
-                $warningMsg .= "</ul>";
-            }
+            );
+
+        } catch (\Exception $e) {
+
+            \Illuminate\Support\Facades\Log::error($e->getMessage());
+
+            return back()->with(
+                'warning',
+                'Data guru berhasil ditambahkan, tetapi email gagal dikirim.'
+            );
         }
 
-        if ($warningMsg) {
-            return back()->with('warning', $warningMsg);
-        }
-
-        return back()->with('success', 'Data Guru berhasil ditambahkan!');
+        return back()->with(
+            'success',
+            'Data guru berhasil ditambahkan dan email setup akun telah dikirim.'
+        );
     }
-
     public function updateGuru(Request $request, $id)
     {
         $this->ensureJadwalSchema();
