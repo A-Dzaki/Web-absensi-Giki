@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Log Aktivitas - Tata Usaha</title>
     
-    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link href="{{ asset('css/styletu.css') . '?v=' . time() }}" rel="stylesheet">
 </head>
@@ -125,7 +125,7 @@
         </div>
     </div>
     
-    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
 
     <!-- Hamburger Script -->
 <script>
@@ -161,3 +161,4 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 </body>
 </html>
+

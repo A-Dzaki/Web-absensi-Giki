@@ -8,7 +8,7 @@
     
     <link rel="icon" type="image/png" href="{{ asset('uploads/logo-giki.png') }}">
     <!-- Bootstrap CSS dari public (atau CDN kalau mau) -->
-    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Custom CSS kamu (jika ada file tambahan) -->
@@ -93,7 +93,7 @@
     </div>
 
     <!-- Bootstrap Bundle JS -->
-    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
 
     <!-- Optional: kalau masih mau pakai localStorage redirect (bisa dihapus kalau pakai Laravel Auth) -->
     <script>

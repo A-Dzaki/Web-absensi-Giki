@@ -7,7 +7,7 @@
     <title>Login — Absensi Siswa SMP GIKI 2 Surabaya</title>
 
     <link rel="icon" type="image/png" href="{{ asset('uploads/logo-giki.png') }}">
-    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
@@ -323,7 +323,7 @@
         </div>
     </div>
 
-    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
     <script>
         // Password Toggle Script
         const togglePassword = document.querySelector('#togglePassword');
